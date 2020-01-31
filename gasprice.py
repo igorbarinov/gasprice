@@ -10,7 +10,7 @@ from itertools import chain
 from web3 import Web3, HTTPProvider
 from sanic import Sanic, response
 from retry import retry
-
+from sanic_cors import CORS, cross_origin
 
 ETH_RPC_URL = os.environ.get('ETH_RPC_URL', 'http://localhost:8545')
 QUANTILES = dict(slow=35, standard=60, fast=90, instant=100)
@@ -19,6 +19,7 @@ WINDOW = 200
 
 w3 = Web3(HTTPProvider(ETH_RPC_URL))
 app = Sanic()
+CORS(app)
 log = logging.getLogger('sanic.error')
 app.config.LOGO = ''
 block_times = deque(maxlen=WINDOW)
